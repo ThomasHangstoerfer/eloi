@@ -1,54 +1,17 @@
-/*
 
-ssh admin@qnap 'cd /root/BTSync/code/; /opt/bin/node test.js >&- 2>&- <&- &'
-
-
-
-ssh admin@qnap 'cd /root/BTSync/code/; /opt/bin/node test.js  &'
-dann das terminal killen
-
-*/
 
 
 var sys = require("sys"),  
 my_http = require("http"),  
 path = require("path"),  
-url = require("url"),  
+url = require("url"),
+playerctrl = require("./playerctrl.js"),
 /*io = require('socket.io'),*/
 fs = require("fs");
 var port = 1111;
-var Users = [];
 
-function initUsers()
-{
-	var data = fs.readFileSync('./users.json');
 
-	Users = JSON.parse(data);
-	console.log('Players: ' , Users);
-}
-
-function addPlayer(name, nick) {
-
-	console.log('addPlayer(' + name + ', ' + nick + ')');
-
-	Users.push( {
-	 	    name: name,
-    		nick: nick
-		} );
-
-	  var data = JSON.stringify(Users, null, 4);
-
-	  fs.writeFile('./users.json', data, function (err) {
-	    if (err) {
-	      console.log('There has been an error saving your configuration data.');
-	      console.log(err.message);
-	      return;
-	    }
-	    console.log('Configuration saved successfully.')
-	  });
-}
-
-initUsers();
+playerctrl.init();
 
 my_http.createServer(function(request,response) {
 	var query = url.parse(request.url, true).query;
@@ -73,7 +36,7 @@ my_http.createServer(function(request,response) {
     else if ( my_path.indexOf('/addPlayer') === 0 ) {
 	    console.log('name: ', query.name);
 	    console.log('nick: ', query.nick);
-	    addPlayer(query.name, query.nick);
+	    playerctrl.addPlayer(query.name, query.nick);
 
 	    response.writeHeader(200);    
 	    response.write("", "binary");    
@@ -109,4 +72,4 @@ my_http.createServer(function(request,response) {
         }  
     });  
 }).listen(port);
-sys.puts("Server Running on " + port);
+sys.puts("Server Running on port " + port);
