@@ -1,0 +1,28 @@
+[
+    {
+        "id": 0,
+        "team_red": {
+            "defense": "Thomas",
+            "offense": "Holger",
+            "goals": 5
+        },
+        "team_blue": {
+            "defense": "Jochen",
+            "offense": "Kai",
+            "goals": 3
+        }
+    },
+    {
+        "id": 1,
+        "team_red": {
+            "defense": "Thomas",
+            "offense": "Holger",
+            "goals": 5
+        },
+        "team_blue": {
+            "defense": "Jochen",
+            "offense": "Kai",
+            "goals": 3
+        }
+    }
+]

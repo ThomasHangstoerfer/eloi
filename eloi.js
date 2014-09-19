@@ -1,17 +1,23 @@
 
+/*
 
+*/
 
 var sys = require("sys"),  
 my_http = require("http"),  
 path = require("path"),  
 url = require("url"),
 playerctrl = require("./playerctrl.js"),
+matchctrl = require("./matchctrl.js"),
 /*io = require('socket.io'),*/
 fs = require("fs");
 var port = 1111;
 
 
 playerctrl.init();
+matchctrl.init();
+
+//matchctrl.addMatch('Thomas', 'Holger', 5, 'Jochen', 'Kai', 3);
 
 my_http.createServer(function(request,response) {
 	var query = url.parse(request.url, true).query;
@@ -34,13 +40,22 @@ my_http.createServer(function(request,response) {
 
     }
     else if ( my_path.indexOf('/addPlayer') === 0 ) {
-	    console.log('name: ', query.name);
-	    console.log('nick: ', query.nick);
-	    playerctrl.addPlayer(query.name, query.nick);
+        console.log('name: ', query.name);
+        console.log('nick: ', query.nick);
+        playerctrl.addPlayer(query.name, query.nick);
 
-	    response.writeHeader(200);    
-	    response.write("", "binary");    
-	    response.end();  
+        // empty response to satisfy client
+        response.writeHeader(200);    
+        response.write("", "binary");    
+        response.end();  
+    }
+    else if ( my_path.indexOf('/addMatch') === 0 ) {
+        matchctrl.addMatch(query.team_red_defense, query.team_red_offense, query.team_red_goals, query.team_blue_defense, query.team_blue_offense, query.team_blue_goals);
+
+        // empty response to satisfy client
+        response.writeHeader(200);    
+        response.write("", "binary");    
+        response.end();  
     }
     else if ( my_path.indexOf('/getPlayers') === 0 )
     {

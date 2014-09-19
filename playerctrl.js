@@ -10,10 +10,28 @@ function PlayerCtrl() {
 
 module.exports.init = function ()
 {
-	var data = fs.readFileSync('./players.json');
+	if ( fs.existsSync('./players.json') )
+	{
+		console.log('file exists');
 
-	Players = JSON.parse(data);
-	console.log('Players: ' , Players);
+		Players = require('./players.json');
+		console.log('Players: ' , Players);
+	}
+}
+
+module.exports.store = function()
+{
+	  var data = JSON.stringify(Players, null, 4);
+
+	  fs.writeFile('./players.json', data, function (err) {
+	    if (err) {
+	      console.log('There has been an error saving your configuration data.');
+	      console.log(err.message);
+	      return;
+	    }
+	    console.log('Configuration saved successfully.')
+	  });
+
 }
 
 module.exports.addPlayer = function(name, nick) {
@@ -25,16 +43,7 @@ module.exports.addPlayer = function(name, nick) {
     		nick: nick
 		} );
 
-	  var data = JSON.stringify(Players, null, 4);
-
-	  fs.writeFile('./players.json', data, function (err) {
-	    if (err) {
-	      console.log('There has been an error saving your configuration data.');
-	      console.log(err.message);
-	      return;
-	    }
-	    console.log('Configuration saved successfully.')
-	  });
+	store();
 }
 
 module.exports.removePlayer = function(name) {
