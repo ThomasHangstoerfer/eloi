@@ -28,7 +28,7 @@ matchctrl.init();
 my_http.createServer(function(request,response) {
 	var query = url.parse(request.url, true).query;
     var my_path = url.parse(request.url).pathname;
-    console.log('URL: ' +  my_path);
+    //console.log('URL: ' +  my_path);
     if ( my_path === '/' )
     {
             fs.readFile('index.html', "binary", function(err, file) {    
@@ -46,8 +46,8 @@ my_http.createServer(function(request,response) {
 
     }
     else if ( my_path.indexOf('/addPlayer') === 0 ) {
-        console.log('name: ', query.name);
-        console.log('nick: ', query.nick);
+        //console.log('name: ', query.name);
+        //console.log('nick: ', query.nick);
         playerctrl.addPlayer(query.name, query.nick);
 
         // empty response to satisfy client
@@ -65,9 +65,15 @@ my_http.createServer(function(request,response) {
     }
     else if ( my_path.indexOf('/getPlayers') === 0 )
     {
-	    response.writeHeader(200);
-	    response.write(JSON.stringify(playerctrl.getPlayers(), null, 4)+"", "binary");
-	    response.end();  
+        response.writeHeader(200);
+        response.write(JSON.stringify(playerctrl.getPlayers(), null, 4)+"", "binary");
+        response.end();  
+    }
+    else if ( my_path.indexOf('/getMatches') === 0 )
+    {
+        response.writeHeader(200);
+        response.write(JSON.stringify(matchctrl.getMatches(), null, 4)+"", "binary");
+        response.end();  
     }
     var full_path = path.join(process.cwd(),my_path);  
     path.exists(full_path,function(exists){  

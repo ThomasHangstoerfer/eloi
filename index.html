@@ -44,7 +44,7 @@
 		</table>
 	</div>
 	<div id="tabs-2" aria-labelledby="ui-id-9" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;">
-		<table border="1" style='color: white; margin:10px;'>
+		<table id='table_matches' border="1" style='color: white; margin:10px;'>
 			<tr><th>#</th><th>Team Blue</th><th>Team Red</th><th>Result</th></tr>
 			<tr><td>1</td><td>Holger <br/> Stallion</td><td>Thomas <br/> Jochen</td><td>5:4</td></tr>
 			<tr><td>2</td><td>Der Kai <br/> Ayyappan</td><td>Sven <br/> Holger</td><td>3:5</td></tr>
@@ -97,6 +97,19 @@ function updatePlayers() {
 }
 
 function  updateMatches() {
+	$.get( "getMatches", function( data )
+	{
+		var Matches = JSON.parse(data);
+
+		$('#table_matches').empty();
+		$('#table_matches').append( $("<tr><th>#</th><th style='color: rgb(180, 180, 255);'>Team Blue</th><th style='color: rgb(255, 180, 180);'>Team Red</th><th>Result</th></tr>"));
+
+		for (var i = 0; i < Matches.length; i++)
+		{
+			$('#table_matches').append( $("<tr><td>" + Matches[i].id + '</td><td>' + Matches[i].team_red.defense + '<br/>' + Matches[i].team_red.offense + '</td><td>' + Matches[i].team_blue.defense + '<br/>' + Matches[i].team_blue.offense + '</td><td>' + Matches[i].team_blue.goals + '&nbsp;:&nbsp;' + Matches[i].team_red.goals + '</td></tr>'));
+		}
+
+	});
 
 }
 
@@ -135,6 +148,7 @@ $( "#button_add_match" ).click(function() {
 
 
 updatePlayers();
+updateMatches();
 
 </script>
 </body>

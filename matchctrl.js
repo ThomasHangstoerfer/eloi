@@ -16,6 +16,12 @@ module.exports.init = function ()
 	}
 }
 
+module.exports.getMatches = function ()
+{
+	return Matches;
+}
+
+
 module.exports.addMatch = function(team_red_defense, team_red_offense, team_red_goals, team_blue_defense, team_blue_offense, team_blue_goals) {
 
 	console.log('addMatch( TeamRed=[ '+ team_red_defense + ', ' + team_red_offense + '], TeamBlue=[ ' + team_blue_defense + ', ' + team_blue_offense + '], Result: ' + team_red_goals + ':' + team_blue_goals + ')');
