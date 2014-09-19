@@ -35,23 +35,65 @@
 		</li>
 	</ul>
 	<div id="tabs-1" aria-labelledby="ui-id-8" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="false">
-		<table border="1" style='color: white;'>
+		<table id='table_statistics' border="1" style='color: white;'>
 			<tr><th>#</th><th>Points</th><th>Name</th></tr>
 			<tr><td>1</td><td>100</td><td>Holger</td></tr>
 			<tr><td>2</td><td>99</td><td>Jochen</td></tr>
 			<tr><td>3</td><td>98</td><td>Der Kai</td></tr>
 			<tr><td>4</td><td>66</td><td>Stallion</td></tr>
 		</table>
+
 	</div>
 	<div id="tabs-2" aria-labelledby="ui-id-9" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;">
-		<table id='table_matches' border="1" style='color: white; margin:10px;'>
-			<tr><th>#</th><th>Team Blue</th><th>Team Red</th><th>Result</th></tr>
-			<tr><td>1</td><td>Holger <br/> Stallion</td><td>Thomas <br/> Jochen</td><td>5:4</td></tr>
-			<tr><td>2</td><td>Der Kai <br/> Ayyappan</td><td>Sven <br/> Holger</td><td>3:5</td></tr>
-			<tr><td>3</td><td>Stallion <br/> Der Kai</td><td>Holger <br/> Jochen</td><td>5:1</td></tr>
-			<tr><td>4</td><td>Ayyappan <br/> Thomas</td><td>Jochen <br/> Sven</td><td>4:5</td></tr>
-		</table>
-		<button id="button_add_match">Add Match</button>
+		<div id='show_matches'>
+			<table id='table_matches' border="1" style='color: white; margin:10px;'>
+				<tr><th>#</th><th>Team Blue</th><th>Team Red</th><th>Result</th></tr>
+				<tr><td>1</td><td>Holger <br/> Stallion</td><td>Thomas <br/> Jochen</td><td>5:4</td></tr>
+				<tr><td>2</td><td>Der Kai <br/> Ayyappan</td><td>Sven <br/> Holger</td><td>3:5</td></tr>
+				<tr><td>3</td><td>Stallion <br/> Der Kai</td><td>Holger <br/> Jochen</td><td>5:1</td></tr>
+				<tr><td>4</td><td>Ayyappan <br/> Thomas</td><td>Jochen <br/> Sven</td><td>4:5</td></tr>
+			</table>
+			<button id="button_add_match">Add Match</button>
+		</div>
+		<div id='add_match' style='display: none;'>
+			<table id='table_add_match' border="1" style='color: white; margin:10px;'>
+				<tr><th></th><th>Offense</th><th>Defense</th><th></th></tr>
+				<tr>
+					<td style='color: rgb(180, 180, 255);'>Team Blue</td>
+					<td>
+						<select id="select_player_blue_offense" style="display: none; width: 200px;">
+							<option selected="selected">&lt;Player&gt;</option>
+						</select>
+					</td>
+					<td>
+						<select id="select_player_blue_defense" style="display: none; width: 200px;">
+							<option selected="selected">&lt;Player&gt;</option>
+						</select>
+					</td>
+					<td>
+						<input id='add_match_blue_goals'/>
+					</td>
+				</tr>
+				<tr>
+					<td style='color: rgb(255, 180, 180);'>Team Red</td>
+					<td>
+						<select id="select_player_red_offense" style="display: none; width: 200px;">
+							<option selected="selected">&lt;Player&gt;</option>
+						</select>
+					</td>
+					<td>
+						<select id="select_player_red_defense" style="display: none; width: 200px;">
+							<option selected="selected">&lt;Player&gt;</option>
+						</select>
+					</td>
+					<td>
+						<input id='add_match_red_goals'/>
+					</td>
+				</tr>
+			</table>
+			<button id="button_save_match">Save</button>
+			<button id="button_cancel_match">Cancel</button>
+		</div>
 	</div>
 	<div id="tabs-3" aria-labelledby="ui-id-10" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;">
 		<table id='table_players' border="1" style='color: white; padding:10px;'>
@@ -86,11 +128,21 @@ function updatePlayers() {
 		var Players = JSON.parse(data);
 
 		$('#table_players').empty();
+		$('#select_player_blue_offense').empty();
+		$("#select_player_blue_defense").empty();
+		$("#select_player_red_offense").empty();
+		$("#select_player_red_defense").empty();
+
 		$('#table_players').append( $("<tr><th>#</th><th>Name</th><th>Kampfname</th></tr>"));
 		for (var i = 0; i < Players.length; i++)
 		{
 			console.log('Player: ' + Players[i].name );
 			$('#table_players').append( $("<tr><td>"+ i + "</td><td>"+ Players[i].name + "</td><td>"+ Players[i].nick + "</td></tr>"));
+
+			$('#select_player_blue_offense').append($("<option>" + Players[i].name + "</option>"));
+			$('#select_player_blue_defense').append($("<option>" + Players[i].name + "</option>"));
+			$('#select_player_red_offense').append($("<option>" + Players[i].name + "</option>"));
+			$('#select_player_red_defense').append($("<option>" + Players[i].name + "</option>"));
 		}
 
 	});
@@ -106,7 +158,7 @@ function  updateMatches() {
 
 		for (var i = 0; i < Matches.length; i++)
 		{
-			$('#table_matches').append( $("<tr><td>" + Matches[i].id + '</td><td>' + Matches[i].team_red.defense + '<br/>' + Matches[i].team_red.offense + '</td><td>' + Matches[i].team_blue.defense + '<br/>' + Matches[i].team_blue.offense + '</td><td>' + Matches[i].team_blue.goals + '&nbsp;:&nbsp;' + Matches[i].team_red.goals + '</td></tr>'));
+			$('#table_matches').append( $("<tr><td>" + Matches[i].id + '</td><td>' + Matches[i].team_blue.defense + '<br/>' + Matches[i].team_blue.offense + '</td><td>' + Matches[i].team_red.defense + '<br/>' + Matches[i].team_red.offense + '</td><td>' + Matches[i].team_blue.goals + '&nbsp;:&nbsp;' + Matches[i].team_red.goals + '</td></tr>'));
 		}
 
 	});
@@ -114,35 +166,72 @@ function  updateMatches() {
 }
 
 $( "#tabs" ).tabs();
+
 $( "#button_new_player" ).button();
 $( "#button_new_player" ).click(function() {
 	$( "#add_player_name" ).val('');
 	$("#add_player_nick").val('');
 	$("#add_player").css('display', 'block');
 });
+
 $( "#button_save_player" ).button();
 $( "#button_save_player" ).click(function() {
-	//alert('New Player: ' + $( "#add_player_name" ).val() + ' - ' + $("#add_player_nick").val() );
 	$("#add_player").css('display', 'none');
 	
 	$.get( "addPlayer", { name: $( "#add_player_name" ).val(), nick: $("#add_player_nick").val() } )
-  		.done(function( data ) {
-		    
+		.done(function( data ) {
 		    updatePlayers();
-  });
+		});
 });
 
 $( "#button_add_match" ).button();
 $( "#button_add_match" ).click(function() {
-	//alert('New Player: ' + $( "#add_player_name" ).val() + ' - ' + $("#add_player_nick").val() );
-	//$("#add_player").css('display', 'none');
-	
-	$.get( "addMatch", {team_red_defense:'thomas', team_red_offense: 'holger', team_red_goals: 5, team_blue_defense: 'jochen', team_blue_offense: 'kai', team_blue_goals:4} )
-  		.done(function( data ) {
-		    
+	$("#show_matches").hide();
+	$("#add_match").show();
+});
+
+
+$( "#button_save_match" ).button();
+$( "#button_save_match" ).click(function() {
+	$("#add_match").hide();
+	$("#show_matches").show();
+
+	var blue_off_player = $("#select_player_blue_offense option:selected").text();
+	var blue_def_player = $("#select_player_blue_defense option:selected").text();
+
+	var red_off_player = $("#select_player_red_offense option:selected").text();
+	var red_def_player = $("#select_player_red_defense option:selected").text();
+
+	var add_match_blue_goals = $("#add_match_blue_goals").val();
+	var add_match_red_goals = $("#add_match_red_goals").val();
+
+	// TODO add check, if all players and goals are set
+
+	$.get( "addMatch",
+		{
+			team_red_defense:  red_def_player,
+			team_red_offense:  red_off_player,
+			team_red_goals:    add_match_red_goals,
+			team_blue_defense: blue_def_player,
+			team_blue_offense: blue_off_player,
+			team_blue_goals:   add_match_blue_goals
+		}
+		).done(function( data ) {
 		    updateMatches();
   });
 });
+
+$( "#button_cancel_match" ).button();
+$( "#button_cancel_match" ).click(function() {
+	$("#add_match").hide();
+	$("#show_matches").show();
+});
+
+
+$( "#select_player_blue_offense" ).selectmenu();
+$( "#select_player_blue_defense" ).selectmenu();
+$( "#select_player_red_offense" ).selectmenu();
+$( "#select_player_red_defense" ).selectmenu();
 
 
 
