@@ -1,5 +1,11 @@
 
 /*
+http://server:1111/getPlayers
+http://server:1111/addPlayer?name=thomas&nick=stallion
+
+
+http://server:1111/getMatches
+http://server:1111/addMatch?team_red_defense=thomas&team_red_offense=holger&team_red_goals=5&team_blue_defense=jochen&team_blue_offense=kai&team_blue_goals=4
 
 */
 
@@ -60,7 +66,7 @@ my_http.createServer(function(request,response) {
     else if ( my_path.indexOf('/getPlayers') === 0 )
     {
 	    response.writeHeader(200);
-	    response.write(JSON.stringify(Users, null, 4), "binary");
+	    response.write(JSON.stringify(playerctrl.getPlayers(), null, 4)+"", "binary");
 	    response.end();  
     }
     var full_path = path.join(process.cwd(),my_path);  

@@ -19,6 +19,11 @@ module.exports.init = function ()
 	}
 }
 
+module.exports.getPlayers = function ()
+{
+	return Players;
+}
+
 module.exports.store = function()
 {
 	  var data = JSON.stringify(Players, null, 4);
@@ -43,7 +48,7 @@ module.exports.addPlayer = function(name, nick) {
     		nick: nick
 		} );
 
-	store();
+	this.store();
 }
 
 module.exports.removePlayer = function(name) {

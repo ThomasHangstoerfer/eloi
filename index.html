@@ -51,6 +51,7 @@
 			<tr><td>3</td><td>Stallion <br/> Der Kai</td><td>Holger <br/> Jochen</td><td>5:1</td></tr>
 			<tr><td>4</td><td>Ayyappan <br/> Thomas</td><td>Jochen <br/> Sven</td><td>4:5</td></tr>
 		</table>
+		<button id="button_add_match">Add Match</button>
 	</div>
 	<div id="tabs-3" aria-labelledby="ui-id-10" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;">
 		<table id='table_players' border="1" style='color: white; padding:10px;'>
@@ -92,8 +93,11 @@ function updatePlayers() {
 			$('#table_players').append( $("<tr><td>"+ i + "</td><td>"+ Players[i].name + "</td><td>"+ Players[i].nick + "</td></tr>"));
 		}
 
-});
-//	}, "json" );
+	});
+}
+
+function  updateMatches() {
+
 }
 
 $( "#tabs" ).tabs();
@@ -114,6 +118,21 @@ $( "#button_save_player" ).click(function() {
 		    updatePlayers();
   });
 });
+
+$( "#button_add_match" ).button();
+$( "#button_add_match" ).click(function() {
+	//alert('New Player: ' + $( "#add_player_name" ).val() + ' - ' + $("#add_player_nick").val() );
+	//$("#add_player").css('display', 'none');
+	
+	$.get( "addMatch", {team_red_defense:'thomas', team_red_offense: 'holger', team_red_goals: 5, team_blue_defense: 'jochen', team_blue_offense: 'kai', team_blue_goals:4} )
+  		.done(function( data ) {
+		    
+		    updateMatches();
+  });
+});
+
+
+
 
 updatePlayers();
 
