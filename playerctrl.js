@@ -10,6 +10,8 @@ function PlayerCtrl() {
 
 module.exports.init = function ()
 {
+// TODO the following line is needed when running on the raspberrypi
+//fs.existsSync = require('path').existsSync;
 	if ( fs.existsSync('./players.json') )
 	{
 		console.log('file exists');
