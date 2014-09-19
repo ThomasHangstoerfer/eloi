@@ -1,7 +1,7 @@
 eloi
 ====
 
-Install node.js
+Prerequisites: Install node.js
 
 Start eloi with
-node eloi.js
+# node eloi.js
