@@ -2,8 +2,21 @@
     {
         "id": 0,
         "team_red": {
+            "defense": "Jochen",
+            "offense": "Sven",
+            "goals": 3
+        },
+        "team_blue": {
             "defense": "Thomas",
             "offense": "Holger",
+            "goals": 5
+        }
+    },
+    {
+        "id": 1,
+        "team_red": {
+            "defense": "Sven",
+            "offense": "Thomas",
             "goals": 5
         },
         "team_blue": {
@@ -13,16 +26,55 @@
         }
     },
     {
-        "id": 1,
+        "id": 3,
         "team_red": {
             "defense": "Thomas",
-            "offense": "Holger",
+            "offense": "Ayyappan",
             "goals": 5
         },
         "team_blue": {
-            "defense": "Jochen",
-            "offense": "Kai",
+            "defense": "Sven",
+            "offense": "Jochen",
             "goals": 3
+        }
+    },
+    {
+        "id": 3,
+        "team_red": {
+            "defense": "Sven",
+            "offense": "ThomasF",
+            "goals": "5"
+        },
+        "team_blue": {
+            "defense": "Thomas",
+            "offense": "Ayyappan",
+            "goals": "2"
+        }
+    },
+    {
+        "id": 4,
+        "team_red": {
+            "defense": "ThomasF",
+            "offense": "Thomas",
+            "goals": "5"
+        },
+        "team_blue": {
+            "defense": "Ayyappan",
+            "offense": "Sven",
+            "goals": "3"
+        }
+    },
+    {
+        "id": 5,
+        "team_red": {
+            "defense": "Kai",
+            "offense": "Thomas",
+            "goals": "3"
+        },
+        "team_blue": {
+            "defense": "Sven",
+            "offense": "ThomasF",
+            "goals": "5"
         }
     }
 ]
