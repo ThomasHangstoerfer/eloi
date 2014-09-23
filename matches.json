@@ -76,5 +76,31 @@
             "offense": "ThomasF",
             "goals": "5"
         }
+    },
+    {
+        "id": 6,
+        "team_red": {
+            "defense": "Jochen",
+            "offense": "Thomas",
+            "goals": "3"
+        },
+        "team_blue": {
+            "defense": "Ayyappan",
+            "offense": "Holger",
+            "goals": "5"
+        }
+    },
+    {
+        "id": 7,
+        "team_red": {
+            "defense": "Thomas",
+            "offense": "ThomasF",
+            "goals": "5"
+        },
+        "team_blue": {
+            "defense": "Ayyappan",
+            "offense": "Jochen",
+            "goals": "0"
+        }
     }
 ]
